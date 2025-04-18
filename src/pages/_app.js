@@ -8,6 +8,14 @@ import { SWRConfig } from 'swr';
 import i18n from "i18next";
 import { useTranslation, initReactI18next } from "react-i18next";
 
+import {
+  ClerkProvider,
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  UserButton
+} from '@clerk/nextjs';
+
 import progressBarConfig from '@/config/progress-bar/index';
 import swrConfig from '@/config/swr/index';
 import WorkspaceProvider from '@/providers/workspace';
@@ -18,8 +26,8 @@ let rawdata = require('../messages/en.json');
 let langCode = "en"
 let langObject = {}
 langObject[langCode] = {}
-
 langObject[langCode].translation = rawdata
+
 i18n
   .use(initReactI18next)
   .init({
@@ -53,24 +61,41 @@ const App = ({ Component, pageProps }) => {
     };
 
     router.events.on('routeChangeComplete', handleRouteChange);
-
     return () => {
       router.events.off('routeChangeComplete', handleRouteChange);
     };
   }, [router.events]);
 
   return (
-    <SessionProvider session={pageProps.session}>
-      <SWRConfig value={swrOptions}>
-        <ThemeProvider attribute="class">
-          <WorkspaceProvider>
-            {progress && <TopBarProgress />}
-            <Component {...pageProps} />
-          </WorkspaceProvider>
-        </ThemeProvider>
-      </SWRConfig>
-    </SessionProvider>
+    <ClerkProvider {...pageProps}>
+      <SessionProvider session={pageProps.session}>
+        <SWRConfig value={swrOptions}>
+          <ThemeProvider attribute="class">
+            <WorkspaceProvider>
+              {progress && <TopBarProgress />}
+
+              <SignedOut>
+                {/* 显示登录按钮 */}
+                <div className="flex items-center justify-center min-h-screen">
+                  <SignInButton />
+                </div>
+              </SignedOut>
+
+              <SignedIn>
+                {/* 显示用户信息和页面内容 */}
+                <div className="p-2 flex justify-end">
+                  <UserButton />
+                </div>
+                <Component {...pageProps} />
+              </SignedIn>
+
+            </WorkspaceProvider>
+          </ThemeProvider>
+        </SWRConfig>
+      </SessionProvider>
+    </ClerkProvider>
   );
 };
 
 export default App;
+
