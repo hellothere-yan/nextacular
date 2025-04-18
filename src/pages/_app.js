@@ -21,7 +21,7 @@ import swrConfig from '@/config/swr/index';
 import WorkspaceProvider from '@/providers/workspace';
 
 import '@/styles/globals.css';
-let rawdata = require('../messages/en.json');
+let rawdata = require('../messages/zh.json');
 
 let langCode = "en"
 let langObject = {}
