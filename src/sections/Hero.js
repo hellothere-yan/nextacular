@@ -34,9 +34,18 @@ const Hero = () => {
             ].join(' ')}
           >
             <nav className="flex flex-col w-full space-x-0 space-y-3 text-center md:space-y-0 md:space-x-3 md:flex-row">
-              <a className="px-5 py-2 rounded hover:bg-gray-100">{t("common.label.guides")}</a>
-              <a className="px-5 py-2 rounded hover:bg-gray-100">{t("common.label.pricing")}</a>
-              <a className="px-5 py-2 rounded hover:bg-gray-100">{t("common.label.blog")}</a>
+              <a className="inline-block px-5 py-2 rounded hover:bg-gray-100 whitespace-nowrap min-w-[4rem] text-center"
+                onClick={() => {
+                  document.getElementById("feature")?.scrollIntoView({ behavior: "smooth" });
+                }}>{t("common.label.feature")}</a>
+              <a className="inline-block px-5 py-2 rounded hover:bg-gray-100 whitespace-nowrap min-w-[4rem] text-center"
+                onClick={() => {
+                  document.getElementById("guides")?.scrollIntoView({ behavior: "smooth" });
+                }}>{t("common.label.guides")}</a>
+              <a className="inline-block px-5 py-2 rounded hover:bg-gray-100 whitespace-nowrap min-w-[4rem] text-center"
+                onClick={() => {
+                  document.getElementById("pricing")?.scrollIntoView({ behavior: "smooth" });
+                }}>{t("common.label.pricing")}</a>
             </nav>
             <Link
               href={
