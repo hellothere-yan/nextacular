@@ -3,6 +3,8 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useTranslation } from "react-i18next";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import CustomUserMenu from "@/components/Button/CustomUserMenu";
 
 const Hero = () => {
   const { status: sessionStatus } = useSession();
@@ -46,15 +48,17 @@ const Hero = () => {
                 onClick={() => {
                   document.getElementById("pricing")?.scrollIntoView({ behavior: "smooth" });
                 }}>{t("common.label.pricing")}</a>
+              <SignedOut>
+                <SignInButton mode="modal">
+                  <button className="inline-block items-center px-5 py-2 bg-blue-600 text-white rounded whitespace-nowrap min-w-[4rem] hover:bg-blue-500">
+                    {t("common.label.login")}
+                  </button>
+                </SignInButton>
+              </SignedOut>
+              <SignedIn>
+                <CustomUserMenu />
+              </SignedIn>
             </nav>
-            <Link
-              href={
-                sessionStatus === 'authenticated' ? '/account' : '/auth/login'
-              }
-              className="w-full px-5 py-2 text-center text-white bg-blue-600 rounded shadow hover:bg-blue-500"
-            >
-              {sessionStatus === 'authenticated' ? 'Go to Dashboard' : 'Login'}
-            </Link>
           </div>
         </header>
         <div className="flex flex-col items-center justify-center pt-10 mx-auto md:w-3/5">

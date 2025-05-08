@@ -73,22 +73,9 @@ const App = ({ Component, pageProps }) => {
           <ThemeProvider attribute="class">
             <WorkspaceProvider>
               {progress && <TopBarProgress />}
-
-              <SignedOut>
-                {/* 显示登录按钮 */}
-                <div className="flex items-center justify-center min-h-screen">
-                  <SignInButton />
-                </div>
-              </SignedOut>
-
-              <SignedIn>
-                {/* 显示用户信息和页面内容 */}
-                <div className="p-2 flex justify-end">
-                  <UserButton />
-                </div>
-                <Component {...pageProps} />
-              </SignedIn>
-
+              <div className="p-2 flex justify-end">
+              </div>
+              <Component {...pageProps} />
             </WorkspaceProvider>
           </ThemeProvider>
         </SWRConfig>
