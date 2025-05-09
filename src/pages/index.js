@@ -8,6 +8,7 @@ import {
   Hero,
   Pricing,
   Testimonial,
+  BackToTopButton,
 } from '@/sections/index';
 
 const Home = () => {
@@ -24,6 +25,7 @@ const Home = () => {
       <Testimonial />
       <CallToAction />
       <Footer />
+      <BackToTopButton />
     </LandingLayout>
   );
 };

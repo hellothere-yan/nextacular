@@ -21,17 +21,16 @@ import swrConfig from '@/config/swr/index';
 import WorkspaceProvider from '@/providers/workspace';
 
 import '@/styles/globals.css';
-let rawdata = require('../messages/zh.json');
-
-let langCode = "en"
-let langObject = {}
-langObject[langCode] = {}
-langObject[langCode].translation = rawdata
+import en from "../messages/en.json";
+import zh from "../messages/zh.json";
 
 i18n
   .use(initReactI18next)
   .init({
-    resources: langObject,
+    resources: {
+      en: { translation: en },
+      zh: { translation: zh },
+    },
     lng: "en",
     fallbackLng: "en",
     interpolation: {
