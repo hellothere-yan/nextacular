@@ -30,7 +30,7 @@ const LanguageSwitcher = ({ className }) => {
         <div className={className} ref={menuRef} >
             <button onClick={() => setOpen(!open)} class="whitespace-nowrap rounded-md  font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 hover:text-accent-foreground h-9 px-4 py-2 flex items-center gap-2  hover:bg-gray-300 justify-start" type="button" id="radix-«R697n6nb»" aria-haspopup="menu" aria-expanded="false" data-state="closed">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-globe h-4 w-4"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>
-                <span class="text-base font-medium">{currentLang === "en" ? "English" : "简体中文"}</span>
+                <span class="text-base  font-semibold">{currentLang === "en" ? "English" : "简体中文"}</span>
             </button>
             {open && (
                 <div className="absolute right-0 mt-2 w-32 bg-gray-800 text-white rounded shadow-xl p-4 z-50">

@@ -1,3 +1,8 @@
+:root {
+    --primary: 40 70% 50%;
+    --card: 40 0% 100%;
+    --card-foreground: 40 0% 0%;
+}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
