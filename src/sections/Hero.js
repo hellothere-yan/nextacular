@@ -67,6 +67,7 @@ const Hero = () => {
               >
                 {t('common.label.pricing')}
               </a>
+              <Link href="/myworks" className="btn btn-primary">我的作品</Link>
               <SignedOut>
                 <SignInButton mode="modal">
                   <button className="inline-block items-center px-5 py-2 bg-blue-600 text-white rounded whitespace-nowrap min-w-[4rem] hover:bg-blue-500">
