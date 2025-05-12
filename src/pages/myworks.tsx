@@ -1,17 +1,17 @@
 // src/pages/myworks.tsx
 
 import { GetServerSideProps } from 'next';
-import { getAuth } from "@clerk/nextjs/server"; // ✅ 使用这个
+import { getAuth } from "@clerk/nextjs/server"; 
 import prisma from "@/prisma/index";
 import React from "react";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    const { userId } = getAuth(context.req); // ✅ 正确用法
+    const { userId } = getAuth(context.req); 
 
     if (!userId) {
         return {
             redirect: {
-                destination: "/sign-in",
+                destination: "/auth/login?redirect_url=/myworks",
                 permanent: false,
             },
         };

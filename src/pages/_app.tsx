@@ -7,7 +7,7 @@ import TopBarProgress from 'react-topbar-progress-indicator';
 import { SWRConfig } from 'swr';
 import i18n from 'i18next';
 import { useTranslation, initReactI18next } from 'react-i18next';
-
+import Navbar from '@/components/navigation';
 import {
   ClerkProvider,
   SignedIn,
@@ -78,6 +78,7 @@ const App = ({ Component, pageProps }: AppProps) => {
               <div className="p-2 flex justify-end">
                 {/* 可放 SignInButton / UserButton */}
               </div>
+              <Navbar />
               <Component {...pageProps} />
             </WorkspaceProvider>
           </ThemeProvider>
