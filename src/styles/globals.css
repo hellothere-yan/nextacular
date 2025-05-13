@@ -3,6 +3,10 @@
     --card: 40 0% 100%;
     --card-foreground: 40 0% 0%;
 }
+.scroll-target {
+    scroll-margin-top: 80px;
+    /* 导航栏高度 */
+}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
