@@ -6,6 +6,7 @@ import ReactGA from 'react-ga';
 import TopBarProgress from 'react-topbar-progress-indicator';
 import { SWRConfig } from 'swr';
 import i18n from 'i18next';
+import { I18nextProvider } from 'react-i18next';
 import { useTranslation, initReactI18next } from 'react-i18next';
 import Navbar from '@/components/navigation';
 import {
@@ -69,6 +70,7 @@ const App = ({ Component, pageProps }: AppProps) => {
   }, [router.events]);
 
   return (
+    <I18nextProvider i18n={i18n}>
     <ClerkProvider {...pageProps}>
       <SessionProvider session={pageProps.session}>
         <SWRConfig value={swrOptions}>
@@ -85,6 +87,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         </SWRConfig>
       </SessionProvider>
     </ClerkProvider>
+    </I18nextProvider>
   );
 };
 
