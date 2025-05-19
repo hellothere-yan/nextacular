@@ -1,10 +1,14 @@
+import { CheckIcon } from '@heroicons/react/24/outline';
+import { useTranslation } from 'react-i18next';
+
 const Guides = () => {
+  const { t } = useTranslation();
   return (
     <div id="guides" className="scroll-target w-full py-10">
       <div className="relative flex flex-col px-5 mx-auto space-y-5 md:w-3/4">
         <div className="flex flex-col items-center">
-          <h6 className="font-bold text-center text-blue-600 uppercase">
-            Guides
+          <h6 className="text-xl font-bold text-center text-blue-600 uppercase">
+            {t('common.label.guides')}
           </h6>
           <h2 className="text-4xl font-bold text-center">
             <span className="block">Supercharge your website</span>

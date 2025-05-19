@@ -7,7 +7,7 @@ const Pricing = () => {
     <div id="pricing" className="scroll-target w-full py-10">
       <div className="relative flex flex-col px-5 mx-auto space-y-5 md:w-3/4">
         <div className="flex flex-col items-center">
-          <h6 className="text-xl my-2 font-bold text-center text-blue-600 uppercase">
+          <h6 className="text-xl font-bold text-center text-blue-600 uppercase">
             {t('common.label.price1')}
           </h6>
           <h4 className="text-4xl my-2 font-bold text-center">
