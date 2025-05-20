@@ -4,6 +4,7 @@ import prisma from "@/prisma/index";
 import Link from 'next/link';
 import React from 'react';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 interface Work {
   id: string;
   user_id: string;
@@ -42,7 +43,7 @@ export const getServerSideProps: GetServerSideProps<{ works: Work[] }> = async (
     };
 };
 
-export default function MyWorksPage({ works }: { works: Work[] }) {
+export default function MyWorksPage({ works: initialWorks }: { works: Work[] }) {
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
         return date.toLocaleString('en-US', {
@@ -55,10 +56,34 @@ export default function MyWorksPage({ works }: { works: Work[] }) {
             hour12: false
         });
     };
+    const [works, setWorks] = useState<Work[]>(initialWorks);
     const router = useRouter();
+    const [isDeleting, setIsDeleting] = useState<string | null>(null);
     const handleAddWork = () => {
         // 跳转到首页并滚动到Feature部分
         router.push('/#feature');
+    };
+    const handleDelete = async (workId: string) => {
+        const confirmed = window.confirm('确定要删除这个作品吗？此操作无法撤销。');
+        if (!confirmed) return;
+        setIsDeleting(workId);
+        try {
+            const response = await fetch(`/api/workspaces/${workId}`, {
+                method: 'DELETE',
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to delete work');
+            }
+
+            // 更新本地状态
+            setWorks(works.filter(work => work.id !== workId));
+        } catch (error) {
+            console.error('Error deleting work:', error);
+            alert('Failed to delete work');
+        } finally {
+            setIsDeleting(null);
+        }
     };
     return (
         <div className="container mx-auto p-4 max-w-4xl">
@@ -91,8 +116,11 @@ export default function MyWorksPage({ works }: { works: Work[] }) {
                                 <small className="text-gray-500">
                                     {formatDate(work.created_at)}
                                 </small>
-                                <button className="text-sm text-red-500 hover:text-red-700">
-                                    删除
+                                <button 
+                                    onClick={() => handleDelete(work.id)}
+                                    disabled={isDeleting === work.id}
+                                className="text-sm text-red-500 hover:text-red-700">
+                                    {isDeleting === work.id ? '删除中...' : '删除'}
                                 </button>
                             </div>
                         </li>
