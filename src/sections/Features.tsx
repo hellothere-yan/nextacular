@@ -18,6 +18,7 @@ const Features = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!userId) {
+      router.push("/auth/login");
       setError('请先登录');
       return;
     }

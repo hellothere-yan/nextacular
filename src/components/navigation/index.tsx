@@ -72,7 +72,7 @@ export default function Navbar() {
           {t('common.label.pricing')}
         </NavLink>
         
-        <Link href="/myworks" passHlegacyBehavior>
+        <Link href="/myworks" >
           <NavLink>
             {t('common.label.myworks')}
           </NavLink>

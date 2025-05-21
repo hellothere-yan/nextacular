@@ -12,14 +12,14 @@ interface Work {
   description: string | null;
   created_at: string; // 存储为 ISO 字符串
 }
-
+//自动调用，不需要手动调用
 export const getServerSideProps: GetServerSideProps<{ works: Work[] }> = async (context) => {
     const { userId } = getAuth(context.req); 
 
     if (!userId) {
         return {
             redirect: {
-                destination: "/auth/login?redirect_url=/myworks",
+                destination: "/auth/login?redirect_url=/api/myworks",
                 permanent: false,
             },
         };
@@ -30,7 +30,7 @@ export const getServerSideProps: GetServerSideProps<{ works: Work[] }> = async (
         orderBy: { created_at: "desc" },
     });
 
-    // 将 Date 对象转换为 ISO 字符串
+    // 使用map函数遍历works数组的每一个成员，然后返回新数组给serializedWorks。只不过吧created_at给序列化了。
     const serializedWorks = works.map(work => ({
         ...work,
         created_at: work.created_at.toISOString()
@@ -38,6 +38,7 @@ export const getServerSideProps: GetServerSideProps<{ works: Work[] }> = async (
 
     return {
         props: {
+            //返回的参数传入给下面的MyWorksPage组件，作为props  //works: Work[]
             works: serializedWorks,
         },
     };
@@ -76,7 +77,7 @@ export default function MyWorksPage({ works: initialWorks }: { works: Work[] }) 
                 throw new Error('Failed to delete work');
             }
 
-            // 更新本地状态
+            // 更新本地状态,filter过滤里面不等于当前workId的
             setWorks(works.filter(work => work.id !== workId));
         } catch (error) {
             console.error('Error deleting work:', error);
@@ -100,7 +101,7 @@ export default function MyWorksPage({ works: initialWorks }: { works: Work[] }) 
             {works.length === 0 ? (
                 <div className="bg-white p-6 rounded-lg shadow">
                     <p className="text-gray-600">你还没有作品。</p>
-                    <Link href="/add-work" className="mt-4 inline-block text-blue-500 hover:text-blue-600">
+                    <Link href="/#feature" className="mt-4 inline-block text-blue-500 hover:text-blue-600">
                         创建第一个作品 →
                     </Link>
                 </div>
