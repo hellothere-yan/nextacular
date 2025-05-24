@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState ,createContext } from 'react';
 import Router, { useRouter } from 'next/router';
 import { SessionProvider } from 'next-auth/react';
 import { ThemeProvider } from 'next-themes';
@@ -27,7 +27,9 @@ import '@/styles/globals.css'; // 确保此路径正确存在
 
 import en from '../messages/en.json';
 import zh from '../messages/zh.json';
+import { zhCN, enUS } from '@clerk/localizations';
 
+export const LanguageContext = createContext();
 // i18n 初始化
 i18n.use(initReactI18next).init({
   resources: {
@@ -43,10 +45,9 @@ i18n.use(initReactI18next).init({
 
 const App = ({ Component, pageProps }: AppProps) => {
   const [progress, setProgress] = useState(false);
-  const { t } = useTranslation();
   const router = useRouter();
   const swrOptions = swrConfig();
-
+  const [locale, setLocale] = useState('en-US');
   // 页面跳转加载动画
   Router.events.on('routeChangeStart', () => setProgress(true));
   Router.events.on('routeChangeComplete', () => setProgress(false));
@@ -69,11 +70,28 @@ const App = ({ Component, pageProps }: AppProps) => {
     };
   }, [router.events]);
 
+  // 初始化：读取 localStorage 或默认
+  useEffect(() => {
+    const savedLang = localStorage.getItem('lang') || 'en-US';
+    setLocale(savedLang);
+    i18n.changeLanguage(savedLang);
+  }, []);
+
+  // 每次语言变化时，也更新 i18n
+  const changeLang = (lang) => {
+    localStorage.setItem('lang', lang);
+    setLocale(lang); 
+    i18n.changeLanguage(lang); 
+  };
+  const clerkLocale = locale === 'zh' ? zhCN : enUS;
   return (
-    <I18nextProvider i18n={i18n}>
-    <ClerkProvider {...pageProps}>
-      <SessionProvider session={pageProps.session}>
-        <SWRConfig value={swrOptions}>
+    <LanguageContext.Provider value={{ locale, changeLang }}>
+      <ClerkProvider
+         localization={locale === "zh-CN" ? zhCN : enUS}
+         navigate={(to) => router.push(to)}
+         {...pageProps} >
+        <SessionProvider session={pageProps.session}>
+          <SWRConfig value={swrOptions}>
           <ThemeProvider attribute="class">
             <WorkspaceProvider>
               {progress && <TopBarProgress />}
@@ -87,7 +105,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         </SWRConfig>
       </SessionProvider>
     </ClerkProvider>
-    </I18nextProvider>
+    </LanguageContext.Provider>
   );
 };
 
